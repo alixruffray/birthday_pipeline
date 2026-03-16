@@ -42,9 +42,7 @@ button{
   font-family:monospace;
 }
 
-button:hover{
-  background:#16a34a;
-}
+button:hover{ background:#16a34a; }
 
 .terminal{
   background:#000;
@@ -56,19 +54,27 @@ button:hover{
   font-size:15px;
 }
 
-.line{
-  white-space:pre;
-  margin:4px 0;
-}
-
-.success{color:#4ade80}
-.warning{color:#facc15}
+.line{ white-space:pre; margin:4px 0; }
+.success{ color:#4ade80 }
+.warning{ color:#facc15 }
 
 .final{
   text-align:center;
   margin-top:20px;
   font-size:20px;
   display:none;
+}
+
+.giftBtn{
+  display:none;
+  background:#f59e0b;
+}
+
+.giftScreen{
+  display:none;
+  text-align:center;
+  font-size:22px;
+  line-height:1.6;
 }
 
 canvas{
@@ -84,7 +90,7 @@ canvas{
 
 <canvas id="confetti"></canvas>
 
-<div class="container">
+<div class="container" id="mainUI">
 
 <h1>🎉 Bon anniversaire !</h1>
 <p style="text-align:center">Une nouvelle version de toi est prête à être déployée.</p>
@@ -95,6 +101,22 @@ canvas{
 
 <div class="final" id="finalMsg">🎂 Upgrade réussi : +1 an installé</div>
 
+<button class="giftBtn" id="giftBtn" onclick="openGift()">🎁 Ouvrir ton cadeau</button>
+
+</div>
+
+<div class="container giftScreen" id="giftScreen">
+<h1>📢 Alerte Productivité</h1>
+<p>
+Nan mais franchement…<br><br>
+T'as vraiment cru que j'allais t'envoyer un cadeau!
+T'as rien d'autres à faire que de regarder ce que je t'envoie.
+Bosse un peu, t'es pas payé à rien foutre!
+</p>
+
+<p style="margin-top:30px;font-size:16px;opacity:0.7">
+Happy Birthday quand même 😄
+</p>
 </div>
 
 <script>
@@ -129,9 +151,7 @@ function typeLine(text,className=""){
   const interval=setInterval(()=>{
     div.textContent=text.slice(0,i);
     i++;
-    if(i>text.length){
-      clearInterval(interval);
-    }
+    if(i>text.length){ clearInterval(interval); }
   },20);
 }
 
@@ -144,7 +164,6 @@ function startPipeline(){
     setTimeout(()=>{
 
       let cls="";
-
       if(step.includes("✔")) cls="success";
       if(step.includes("⚠")) cls="warning";
 
@@ -154,6 +173,7 @@ function startPipeline(){
       if(i===steps.length-1){
         setTimeout(()=>{
           document.getElementById("finalMsg").style.display="block";
+          document.getElementById("giftBtn").style.display="block";
           launchConfetti();
         },800)
       }
@@ -163,6 +183,10 @@ function startPipeline(){
   })
 }
 
+function openGift(){
+  document.getElementById("mainUI").style.display="none";
+  document.getElementById("giftScreen").style.display="block";
+}
 
 const canvas=document.getElementById("confetti");
 const ctx=canvas.getContext("2d");
